@@ -18,12 +18,18 @@
 
     async function generateQuiz() {
       const topic = document.getElementById("topic").value;
-const rs = await fetch("https://grok-api-o6a1.onrender.com/api/generate", {
+      const rs = await fetch("https://grok-api-o6a1.onrender.com/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
       });
-      const data = await res.json();
+
+      if (!rs.ok) {
+        document.getElementById("quiz").innerHTML = "<p>エラーが発生しました。</p>";
+        return;
+      }
+
+      const data = await rs.json();
       currentQuestion = data;
 
       const quizDiv = document.getElementById("quiz");
