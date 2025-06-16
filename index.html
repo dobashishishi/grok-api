@@ -18,7 +18,7 @@
 
     async function generateQuiz() {
       const topic = document.getElementById("topic").value;
-      const res = await fetch("https://your-render-backend.onrender.com/api/generate", {
+      const res = await fetch("https://grok-api-o6a1.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
