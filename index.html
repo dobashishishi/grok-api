@@ -18,7 +18,7 @@
 
     async function generateQuiz() {
       const topic = document.getElementById("topic").value;
-      const res = await fetch("https://grok-api-o6a1.onrender.com", {
+const rs = await fetch("https://grok-api-o6a1.onrender.com/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic }),
@@ -37,7 +37,7 @@
     }
 
     async function answerQuiz(index) {
-      const res = await fetch("https://your-render-backend.onrender.com/api/score", {
+      const res = await fetch("https://grok-api-o6a1.onrender.com/api/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: currentQuestion, userAnswer: index }),
