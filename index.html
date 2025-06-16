@@ -1,0 +1,50 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Grok英語クイズ</title>
+</head>
+<body>
+  <h1>英語クイズで学ぼう</h1>
+  <input type="text" id="topic" placeholder="例: 動物" />
+  <button onclick="generateQuiz()">問題を出して</button>
+
+  <div id="quiz"></div>
+  <div id="result"></div>
+
+  <script>
+    let currentQuestion;
+
+    async function generateQuiz() {
+      const topic = document.getElementById("topic").value;
+      const res = await fetch("https://your-render-backend.onrender.com/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic }),
+      });
+      const data = await res.json();
+      currentQuestion = data;
+
+      const quizDiv = document.getElementById("quiz");
+      quizDiv.innerHTML = `<p>${data.question}</p>`;
+      data.choices.forEach((choice, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => answerQuiz(index);
+        quizDiv.appendChild(btn);
+      });
+    }
+
+    async function answerQuiz(index) {
+      const res = await fetch("https://your-render-backend.onrender.com/api/score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: currentQuestion, userAnswer: index }),
+      });
+      const data = await res.json();
+      document.getElementById("result").textContent = data.result;
+    }
+  </script>
+</body>
+</html>
